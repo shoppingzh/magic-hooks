@@ -11,5 +11,7 @@ module.exports = {
     '@shoppingzh', //
     'plugin:@typescript-eslint/recommended',
   ],
-  rules: {},
+  rules: {
+    'no-promise-executor-return': [0]
+  },
 }
