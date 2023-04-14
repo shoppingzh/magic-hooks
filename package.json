@@ -2,9 +2,18 @@
   "name": "magic-hooks",
   "version": "0.0.1",
   "description": "magic hooks!",
-  "main": "dist/index.js",
+  "exports": {
+    "./lib/core": {
+      "require": "./lib/core.cjs",
+      "import": "./lib/chart.mjs"
+    },
+    "./lib/chart": {
+      "require": "./lib/chart.cjs",
+      "import": "./lib/chart.mjs"
+    }
+  },
   "files": [
-    "dist"
+    "lib"
   ],
   "scripts": {
     "dev": "rollup -c scripts/rollup.config.ts --configPlugin=typescript={tsconfig:'scripts/tsconfig.build.json'} --bundleConfigAsCjs --watch",
@@ -38,6 +47,7 @@
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
     "eslint": "^8.37.0",
+    "glob": "^10.0.0",
     "husky": "^8.0.3",
     "jest": "^28.1.3",
     "lint-staged": "^13.2.0",

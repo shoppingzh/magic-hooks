@@ -4,7 +4,7 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "declaration": true,
-    "declarationDir": "dist",
+    "declarationDir": "lib",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]

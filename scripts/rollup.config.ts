@@ -8,14 +8,19 @@ import beep from '@rollup/plugin-beep'
 import { terser } from 'rollup-plugin-terser'
 import pkg from '../package.json'
 import clear from 'rollup-plugin-clear'
+import glob from 'glob'
 
 export default defineConfig({
-  input: 'src/index.ts',
-  output: {
-    dir: 'dist',
-    format: 'umd',
-    name: 'MagicHooks',
-  },
+  input: glob.sync('src/*.ts'),
+  output: [{
+    dir: 'lib',
+    format: 'esm',
+    entryFileNames: '[name].mjs',
+  }, {
+    dir: 'lib',
+    format: 'cjs',
+    entryFileNames: '[name].cjs',
+  }],
   external: Object.keys((pkg as any).peerDependencies || {}),
   plugins: [
     alias({
@@ -27,7 +32,7 @@ export default defineConfig({
       ],
     }),
     clear({
-      targets: ['dist'],
+      targets: ['lib'],
     }),
     ts({
       tsconfig: path.resolve(__dirname, '../tsconfig.json'),
@@ -35,11 +40,8 @@ export default defineConfig({
     // babel({
     //   babelHelpers: 'runtime',
     // }),
-    // 生成包大小监控
-    // sizes(100),
-    // 代码混淆
-    // terser(),
-    // 警告
-    // beep(),
+    sizes(100),
+    terser(),
+    beep(),
   ],
 })
