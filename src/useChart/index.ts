@@ -7,6 +7,7 @@ export interface UseChartOptions {
   el?: MaybeRef<HTMLElement>
   loading?: MaybeRef<boolean>
   option?: Ref<echarts.EChartsOption>
+  theme?: MaybeRef<string>
   resizeDuration?: number
   loadingOptions?: object
 }
@@ -16,6 +17,7 @@ export interface UseChartReturn {
   loading: Ref<boolean>
   instance: ShallowRef<echarts.EChartsType>
   option: Ref<echarts.EChartsOption>
+  theme: Ref<string>
 }
 
 const DEFAULT_OPTIONS: UseChartOptions = {
@@ -34,6 +36,7 @@ const DEFAULT_OPTIONS: UseChartOptions = {
  * 2. 加载状态
  * 3. 当容器大小发生变化时，自动重绘图表
  * 4. 当配置项发生变化时，自动重绘图表
+ * 5. 动态换肤
  * @param options 
  * @returns 
  */
@@ -43,13 +46,15 @@ export function useChart(options: UseChartOptions = {}): UseChartReturn {
   const instance = shallowRef<echarts.EChartsType>()
   const loading = ref(opts.loading || false)
   const option = ref(opts.option)
+  const theme = ref(opts.theme)
 
   function init() {
-    instance.value = echarts.init(el.value)
+    instance.value = echarts.init(el.value, theme.value)
   }
 
   function destroy() {
     if (!instance.value) return
+    if (instance.value.isDisposed()) return
     instance.value.dispose()
     instance.value = null
   }
@@ -88,11 +93,18 @@ export function useChart(options: UseChartOptions = {}): UseChartReturn {
 
   watch([instance, option], render, { deep: true })
   watch([instance, loading], updateLoading)
+  watch(theme, () => {
+    // FIXME 注：echarts暂不支持动态换肤，需要先销毁实例重新初始化
+    // 详情请见：https://github.com/apache/echarts/issues/4607
+    destroy()
+    init()
+  })
 
   return {
     el,
     loading,
     instance,
     option,
+    theme,
   }
 }
