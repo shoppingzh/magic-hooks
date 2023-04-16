@@ -8,6 +8,7 @@ export interface UseChartOptions {
   loading?: MaybeRef<boolean>
   option?: Ref<echarts.EChartsOption>
   resizeDuration?: number
+  loadingOptions?: object
 }
 
 export interface UseChartReturn {
@@ -19,6 +20,12 @@ export interface UseChartReturn {
 
 const DEFAULT_OPTIONS: UseChartOptions = {
   resizeDuration: 0,
+  loadingOptions: {
+    text: '加载中..',
+    spinnerRadius: 10,
+    lineWidth: 2,
+    textColor: '#333'
+  }
 }
 
 /**
@@ -68,7 +75,7 @@ export function useChart(options: UseChartOptions = {}): UseChartReturn {
   function updateLoading() {
     if (!instance.value) return
     if (loading.value) {
-      instance.value.showLoading()
+      instance.value.showLoading('default', opts.loadingOptions)
     } else {
       instance.value.hideLoading()
     }
