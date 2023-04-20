@@ -14,6 +14,14 @@ interface UseLoadReturn<Q, R> {
   load: () => Promise<void>
 }
 
+/**
+ * 通用加载hooks，特性：
+ * - 查询参数与加载数据
+ * - 不限定加载源
+ * @param fn 
+ * @param options 
+ * @returns 
+ */
 export function useLoad<Q extends object = object, R = unknown>(
   fn: LoadFn<R>,
   options: UseLoadOptions<Q, R> = {}
