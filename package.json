@@ -5,7 +5,7 @@
   "exports": {
     "./lib/core": {
       "require": "./lib/core.cjs",
-      "import": "./lib/chart.mjs"
+      "import": "./lib/core.mjs"
     },
     "./lib/chart": {
       "require": "./lib/chart.cjs",
