@@ -38,4 +38,14 @@ describe('useLoad', () => {
 
   })
 
+  it('disable loading load', async() => {
+    const { loading, load } = useLoad(async() => {
+      await wait(50)
+      return 1
+    })
+
+    load(true)
+    expect(loading.value).toBe(false)
+  })
+
 })

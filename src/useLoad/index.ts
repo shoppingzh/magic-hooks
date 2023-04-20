@@ -11,7 +11,7 @@ interface UseLoadReturn<Q, R> {
   query: Q
   result: Ref<R>
   loading: Ref<boolean>
-  load: () => Promise<void>
+  load: (disableLoading?: boolean) => Promise<void>
 }
 
 /**
@@ -30,11 +30,13 @@ export function useLoad<Q extends object = object, R = unknown>(
   const result = ref<R>()
   const loading = ref(false)
 
-  function load() {
+  function load(disableLoading = false) {
     return new Promise<void>(async(resolve, reject) => {
       try {
         if (!fn) return reject()
-        loading.value = true
+        if (!disableLoading) {
+          loading.value = true
+        }
         result.value = await fn(query)
 
         resolve()
