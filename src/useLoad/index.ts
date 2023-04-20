@@ -1,7 +1,7 @@
 import { MaybeRef, toReactive } from '@vueuse/core'
 import { Ref, ref } from 'vue'
 
-type LoadFn<R> = () => Promise<R>
+type LoadFn<Q, R> = (query: Q) => Promise<R>
 
 interface UseLoadOptions<Q, R> {
   initialQuery?: MaybeRef<Q>
@@ -23,7 +23,7 @@ interface UseLoadReturn<Q, R> {
  * @returns 
  */
 export function useLoad<Q extends object = object, R = unknown>(
-  fn: LoadFn<R>,
+  fn: LoadFn<Q, R>,
   options: UseLoadOptions<Q, R> = {}
 ): UseLoadReturn<Q, R> {
   const query = toReactive(options.initialQuery || {} as Q)
@@ -34,11 +34,14 @@ export function useLoad<Q extends object = object, R = unknown>(
     return new Promise<void>(async(resolve, reject) => {
       try {
         if (!fn) return reject()
-        await fn()
+        loading.value = true
+        result.value = await fn(query)
 
         resolve()
       } catch (err) {
         reject(err)
+      } finally {
+        loading.value = false
       }
     })
   }
