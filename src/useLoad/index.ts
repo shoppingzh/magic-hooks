@@ -1,13 +1,13 @@
 import { MaybeRef, toReactive } from '@vueuse/core'
 import { Ref, ref } from 'vue'
 
-type LoadFn<Q, R> = (query: Q) => Promise<R>
+export type LoadFn<Q, R> = (query: Q) => Promise<R>
 
-interface UseLoadOptions<Q, R> {
+export interface UseLoadOptions<Q, R> {
   initialQuery?: MaybeRef<Q>
 }
 
-interface UseLoadReturn<Q, R> {
+export interface UseLoadReturn<Q, R> {
   query: Q
   result: Ref<R>
   loading: Ref<boolean>
