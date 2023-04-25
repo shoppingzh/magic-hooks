@@ -49,6 +49,7 @@ export function useChart(options: UseChartOptions = {}): UseChartReturn {
   const theme = ref(opts.theme)
 
   function init() {
+    if (!el.value) return
     instance.value = echarts.init(el.value, theme.value)
   }
 
@@ -86,7 +87,8 @@ export function useChart(options: UseChartOptions = {}): UseChartReturn {
     }
   }
 
-  onMounted(init)
+  watch(el, init, { immediate: true })
+  // FIXME watch el el变为空，也需要销毁
   onUnmounted(destroy)
 
   useResizeObserver(el, useThrottleFn(resize, 500))
