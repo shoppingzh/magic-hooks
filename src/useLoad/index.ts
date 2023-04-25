@@ -1,10 +1,12 @@
 import { MaybeRef, toReactive } from '@vueuse/core'
-import { Ref, ref } from 'vue'
+import { merge } from 'lodash'
+import { Ref, UnwrapRef, ref } from 'vue'
 
 export type LoadFn<Q, R> = (query: Q) => Promise<R>
 
 export interface UseLoadOptions<Q, R> {
   initialQuery?: MaybeRef<Q>
+  initialResult?: R
 }
 
 export interface UseLoadReturn<Q, R> {
@@ -26,8 +28,9 @@ export function useLoad<Q extends object = object, R = unknown>(
   fn: LoadFn<Q, R>,
   options: UseLoadOptions<Q, R> = {}
 ): UseLoadReturn<Q, R> {
-  const query = toReactive(options.initialQuery || {} as Q)
-  const result = ref<R>()
+  const opts = options
+  const query = toReactive(opts.initialQuery || {} as Q)
+  const result = ref(opts.initialResult) as Ref<R>
   const loading = ref(false)
 
   function load(disableLoading = false) {

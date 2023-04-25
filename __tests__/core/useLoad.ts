@@ -79,4 +79,18 @@ describe('useLoad', () => {
     expect(query.a).toBe(10)
   })
 
+  it('initial result', async() => {
+    const { result, load } = useLoad(async() => {
+      await wait(50)
+      return 1
+    }, {
+      initialResult: 0
+    })
+    expect(result.value).toBe(0)
+    load()
+    expect(result.value).toBe(0)
+    await wait(100)
+    expect(result.value).toBe(1)
+  })
+
 })
