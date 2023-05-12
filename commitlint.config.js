@@ -5,7 +5,7 @@ module.exports = {
   ],
   rules: {
     'scope-empty': [2, 'never'],
-    'scope-enum': [2, 'always', ['core', 'chart']],
+    'scope-enum': [2, 'always', ['base', 'core', 'chart']],
     'subject-case': [0],
   }
 }

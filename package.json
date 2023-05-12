@@ -24,7 +24,7 @@
     "test:cov": "jest --coverage",
     "prepare": "husky install"
   },
-  "repository": "git@github.com:shoppingzh/rollup-lib-template.git",
+  "repository": "git@github.com:shoppingzh/magic-hooks.git",
   "author": "shoppingzh <1049262057@qq.com>",
   "license": "MIT",
   "devDependencies": {
