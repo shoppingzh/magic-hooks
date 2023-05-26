@@ -4,7 +4,7 @@ module.exports = {
     '@commitlint/config-conventional'
   ],
   rules: {
-    'scope-empty': [2, 'never'],
+    'scope-empty': [1, 'never'],
     'scope-enum': [2, 'always', ['core', 'chart']],
     'subject-case': [0],
   }

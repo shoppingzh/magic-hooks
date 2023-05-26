@@ -40,7 +40,7 @@ const DEFAULT_OPTIONS: UseChartOptions = {
  * @param options 
  * @returns 
  */
-export function useChart(options: UseChartOptions = {}): UseChartReturn {
+export default function(options: UseChartOptions = {}): UseChartReturn {
   const opts = merge({}, DEFAULT_OPTIONS, options)
   const el = ref(opts.el)
   const instance = shallowRef<echarts.EChartsType>()

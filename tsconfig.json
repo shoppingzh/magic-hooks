@@ -3,8 +3,7 @@
     "target": "ES6",
     "noImplicitAny": true,
     "esModuleInterop": true,
-    "declaration": true,
-    "declarationDir": "lib",
+    "allowJs": true,
     "moduleResolution": "nodenext",
     "baseUrl": ".",
     "paths": {
