@@ -7,6 +7,8 @@ export type LoadFn<Q, R> = (query: Q) => Promise<R>
 export interface UseLoadOptions<Q, R> {
   initialQuery?: MaybeRef<Q>
   initialResult?: R
+  /**自动加载 */
+  autoLoad?: boolean
 }
 
 export interface UseLoadReturn<Q, R> {
@@ -49,6 +51,10 @@ export default function<Q extends object = object, R = unknown>(
         loading.value = false
       }
     })
+  }
+
+  if (opts.autoLoad) {
+    load()
   }
 
   return {
