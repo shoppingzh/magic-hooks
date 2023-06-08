@@ -24,7 +24,7 @@ export interface UseLoadReturn<Q, R> {
  * @param options 
  * @returns 
  */
-export function useLoad<Q extends object = object, R = unknown>(
+export default function<Q extends object = object, R = unknown>(
   fn: LoadFn<Q, R>,
   options: UseLoadOptions<Q, R> = {}
 ): UseLoadReturn<Q, R> {

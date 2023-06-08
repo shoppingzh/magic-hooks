@@ -1,4 +1,4 @@
-import { useLoad, LoadFn, UseLoadReturn, UseLoadOptions } from '@/useLoad'
+import useLoad, { LoadFn, UseLoadReturn, UseLoadOptions } from '@/useLoad'
 import { MaybeRef } from '@vueuse/core'
 import { Ref, ref } from 'vue'
 
@@ -22,12 +22,10 @@ export interface UseLoadListReturn<Q, R> extends Pick<UseLoadReturn<Q, R>, 'quer
   pageSize: Ref<number>
 }
 
-export const DEFAULT_OPTIONS: UseLoadListOptions<unknown, unknown> = {}
-
 const START_PAGE = 0
 const DEFAULT_PAGE_SIZE = 15
 
-export function useLoadList<Q extends object, R>(
+export default function<Q extends object, R>(
   loadFn: LoadFn<Q, Result<R>>,
   options: UseLoadListOptions<Q, R> = {}
 ): UseLoadListReturn<Q, R> {
