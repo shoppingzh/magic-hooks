@@ -37,7 +37,11 @@ export default [
     output: [{
       dir: 'lib',
       format: 'esm',
-      entryFileNames: '[name].js',
+      entryFileNames: '[name].mjs',
+    }, {
+      dir: 'lib',
+      format: 'cjs',
+      entryFileNames: '[name].cjs',
     }],
 
     external,

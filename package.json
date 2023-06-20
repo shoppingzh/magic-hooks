@@ -1,10 +1,22 @@
 {
   "name": "magic-hooks",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "magic hooks!",
   "files": [
     "lib"
   ],
+  "exports": {
+    "./lib/useChart": {
+      "types": "./lib/useChart.d.ts",
+      "import": "./lib/useChart.mjs",
+      "require": "./lib/useChart.cjs"
+    },
+    "./lib/useLoad": {
+      "types": "./lib/useLoad.d.ts",
+      "import": "./lib/useLoad.mjs",
+      "require": "./lib/useLoad.cjs"
+    }
+  },
   "scripts": {
     "dev": "rollup -c scripts/rollup.config.ts --configPlugin=typescript={tsconfig:'scripts/tsconfig.build.json'} --bundleConfigAsCjs --watch",
     "build": "rollup -c scripts/rollup.config.ts --configPlugin=typescript={tsconfig:'scripts/tsconfig.build.json'} --bundleConfigAsCjs",
