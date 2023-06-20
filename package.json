@@ -12,7 +12,9 @@
     "format": "eslint . --fix",
     "test": "jest",
     "test:cov": "jest --coverage",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
+    "push": "pnpm build && pnpm publish"
   },
   "repository": "git@github.com:shoppingzh/magic-hooks.git",
   "author": "shoppingzh <1049262057@qq.com>",
@@ -39,6 +41,7 @@
     "@types/rollup": "^0.54.0",
     "@typescript-eslint/eslint-plugin": "^5.57.1",
     "@typescript-eslint/parser": "^5.57.1",
+    "conventional-changelog-cli": "^3.0.0",
     "echarts": "^5.4.2",
     "esbuild": "^0.17.19",
     "eslint": "^8.37.0",
