@@ -65,5 +65,8 @@
     "echarts": "^5.4.2",
     "lodash": "^4.17.21",
     "vue": "^3.2.47"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
   }
 }
