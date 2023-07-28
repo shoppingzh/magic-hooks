@@ -1,6 +1,6 @@
 import { MaybeRef, useResizeObserver, useThrottleFn } from '@vueuse/core'
 import * as echarts from 'echarts'
-import { Ref, ShallowRef, onMounted, onUnmounted, ref, shallowRef, watch } from 'vue'
+import { Ref, ShallowRef, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { merge } from 'lodash'
 
 export interface UseChartOptions {

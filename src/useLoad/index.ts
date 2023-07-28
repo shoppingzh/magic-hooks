@@ -1,6 +1,5 @@
 import { MaybeRef, toReactive } from '@vueuse/core'
-import { merge } from 'lodash'
-import { Ref, UnwrapRef, ref } from 'vue'
+import { Ref, ref } from 'vue'
 
 export type LoadFn<Q, R> = (query: Q) => Promise<R>
 
