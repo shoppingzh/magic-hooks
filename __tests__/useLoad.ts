@@ -1,5 +1,5 @@
+import useLoad from '../src/useLoad/index'
 import { reactive, ref } from 'vue'
-import { useLoad } from '../../src/core'
 
 function wait(timeout: number) {
   return new Promise<void>((resolve) => {
