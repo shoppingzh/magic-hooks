@@ -1,7 +1,8 @@
-import { MaybeRef, useIntersectionObserver, useResizeObserver, useThrottleFn } from '@vueuse/core'
+import { MaybeRef, useResizeObserver, useThrottleFn } from '@vueuse/core'
 import * as echarts from 'echarts'
 import { Ref, ShallowRef, onUnmounted, ref, shallowRef, watch } from 'vue'
 import { merge } from 'lodash'
+import useElementVisible from './useElementVisible'
 
 
 export interface UseChartOptions {
@@ -39,17 +40,6 @@ const DEFAULT_OPTIONS: UseChartOptions = {
   }
 }
 
-function useElementVisible(el: MaybeRef<HTMLElement>) {
-  const visible = ref(false)
-  const { isSupported } = useIntersectionObserver(el, (entries) => {
-    if (!entries || !entries.length) return
-    visible.value = entries[0].isIntersecting
-  })
-  if (!isSupported.value) { // 降级处理：不支持时，默认都显示
-    visible.value = true
-  }
-  return visible
-}
 
 /**
  * 基础图表hooks，支持以下功能：
@@ -70,7 +60,7 @@ export default function(options: UseChartOptions = {}): UseChartReturn {
   const option = ref(opts.option)
   const theme = ref(opts.theme)
   const lazyRender = ref(opts.lazyRender)
-  const visible = useElementVisible(el) // Vueuse useElementVisibility有问题，自己实现
+  const visible = useElementVisible({ el }) // Vueuse useElementVisibility有问题，自己实现
 
   function init(force?: boolean) {
     if (!el.value) return
@@ -115,9 +105,7 @@ export default function(options: UseChartOptions = {}): UseChartReturn {
 
   // 元素存在时，渲染
   watch(el, () => init(), { immediate: true })
-  watch(visible, () => {
-    init()
-  })
+  watch(visible, () => init(), { immediate: true })
   // 销毁
   onUnmounted(destroy) // FIXME watch el el变为空，也需要销毁
   // 元素容器大小变化，重置图表大小
