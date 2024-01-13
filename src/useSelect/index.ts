@@ -15,7 +15,7 @@ export interface SelectItem extends BaseSelectItem {
   [key: string]: any
 }
 
-interface Options {
+interface UseSelectOptions {
   /** 选项列表 */
   items: MaybeRef<SelectItem[]>
   /** 默认值 */
@@ -43,7 +43,7 @@ function isSameValue(a: SelectItemValue, b: SelectItemValue) {
  * @param options 
  * @returns 
  */
-export default function useSelect(options: Options): UseSelectReturn {
+export default function useSelect(options: UseSelectOptions): UseSelectReturn {
   const items = ref(options.items ?? [])
   const safeItems = computed(() => items.value || [])
   const activeValue = ref(options.initialValue)
