@@ -15,6 +15,11 @@
       "types": "./lib/useLoad.d.ts",
       "import": "./lib/useLoad.mjs",
       "require": "./lib/useLoad.cjs"
+    },
+    "./lib/useSelect": {
+      "types": "./lib/useSelect.d.ts",
+      "import": "./lib/useSelect.mjs",
+      "require": "./lib/useSelect.cjs"
     }
   },
   "scripts": {

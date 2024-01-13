@@ -50,13 +50,10 @@ export default function useSelect(options: UseSelectOptions): UseSelectReturn {
   const activeItem = computed(() => safeItems.value.find(o => isSameValue(o.value, activeValue.value)))
 
   function autoSelect() {
-    if (!safeItems.value || !safeItems.value.length) {
-      activeValue.value = undefined
-    } else {
-      if (!activeItem.value) {
-        const firstEnableItem = safeItems.value.find(o => !o.disabled)
-        activeValue.value = firstEnableItem ? firstEnableItem.value : undefined
-      }
+    // 没选中或选中的是禁用的，重新自动选择
+    if (!activeItem.value || activeItem.value.disabled) {
+      const firstEnableItem = safeItems.value.find(o => !o.disabled)
+      activeValue.value = firstEnableItem ? firstEnableItem.value : undefined
     }
   }
 
