@@ -9,88 +9,84 @@ function wait(timeout: number) {
   })
 }
 
-describe('useLoad', () => {
-
-  it('base', async() => {
-    const { query, result, loading, load } = useLoad((query) => Promise.resolve([1, 2, 3].at(query.at)), {
-      initialQuery: {
-        at: 2
-      }
-    })
-
-    expect(query.at).toBe(2)
-    expect(result.value).toBe(undefined)
-    expect(loading.value).toBe(false)
-
-    await load()
-    expect(result.value).toBe(3)
+it('base', async() => {
+  const { query, result, loading, load } = useLoad((query) => Promise.resolve([1, 2, 3].at(query.at)), {
+    initialQuery: {
+      at: 2
+    }
   })
 
-  it('async', async() => {
+  expect(query.at).toBe(2)
+  expect(result.value).toBe(undefined)
+  expect(loading.value).toBe(false)
 
-    const { result, load } = useLoad(async() => {
-      await wait(500)
-      return 1
-    })
+  await load()
+  expect(result.value).toBe(3)
+})
 
-    await load()
+it('async', async() => {
 
-    expect(result.value).toBe(1)
-
+  const { result, load } = useLoad(async() => {
+    await wait(500)
+    return 1
   })
 
-  it('disable loading load', async() => {
-    const { loading, load } = useLoad(async() => {
-      await wait(50)
-      return 1
-    })
+  await load()
 
-    load(true)
-    expect(loading.value).toBe(false)
+  expect(result.value).toBe(1)
+
+})
+
+it('disable loading load', async() => {
+  const { loading, load } = useLoad(async() => {
+    await wait(50)
+    return 1
   })
 
-  it('link reactive query', async() => {
-    const myQuery = reactive({
-      a: 1
-    })
-    const { query } = useLoad(() => Promise.resolve([1, 2, 3]), {
-      initialQuery: myQuery,
-    })
+  load(true)
+  expect(loading.value).toBe(false)
+})
 
-    query.a = 2
-    expect(myQuery.a).toBe(2)
-
-    myQuery.a = 10
-    expect(query.a).toBe(10)
+it('link reactive query', async() => {
+  const myQuery = reactive({
+    a: 1
+  })
+  const { query } = useLoad(() => Promise.resolve([1, 2, 3]), {
+    initialQuery: myQuery,
   })
 
-  it('link ref query', async() => {
-    const myQuery = ref({
-      a: 1
-    })
-    const { query } = useLoad(() => Promise.resolve(), {
-      initialQuery: myQuery,
-    })
+  query.a = 2
+  expect(myQuery.a).toBe(2)
 
-    query.a = 2
-    expect(myQuery.value.a).toBe(2)
+  myQuery.a = 10
+  expect(query.a).toBe(10)
+})
 
-    myQuery.value.a = 10
-    expect(query.a).toBe(10)
+it('link ref query', async() => {
+  const myQuery = ref({
+    a: 1
+  })
+  const { query } = useLoad(() => Promise.resolve(), {
+    initialQuery: myQuery,
   })
 
-  it('initial result', async() => {
-    const { result, load } = useLoad(async() => {
-      await wait(50)
-      return 1
-    }, {
-      initialResult: 0
-    })
-    expect(result.value).toBe(0)
-    load()
-    expect(result.value).toBe(0)
-    await wait(100)
-    expect(result.value).toBe(1)
-  })
+  query.a = 2
+  expect(myQuery.value.a).toBe(2)
 
+  myQuery.value.a = 10
+  expect(query.a).toBe(10)
+})
+
+it('initial result', async() => {
+  const { result, load } = useLoad(async() => {
+    await wait(50)
+    return 1
+  }, {
+    initialResult: 0
+  })
+  expect(result.value).toBe(0)
+  load()
+  expect(result.value).toBe(0)
+  await wait(100)
+  expect(result.value).toBe(1)
 })
