@@ -8,7 +8,7 @@ import { terser } from 'rollup-plugin-terser'
 import pkg from '../package.json'
 import clear from 'rollup-plugin-clear'
 import config from './config'
-import dts from 'rollup-plugin-dts'
+import { dts } from 'rollup-plugin-dts'
 import commonjs from '@rollup/plugin-commonjs'
 
 const input = config.entryList.reduce((map, o) => {
@@ -67,7 +67,7 @@ export default [
     external,
     plugins: [
       ...plugins,
-      dts.default({
+      dts({
         compilerOptions: {
           preserveSymlinks: false,
         }
