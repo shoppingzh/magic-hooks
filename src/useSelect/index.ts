@@ -1,7 +1,7 @@
 import { MaybeRef } from '@vueuse/core'
 import { ComputedRef, Ref, computed, ref, watch } from 'vue'
 
-export type SelectItemValue = string | number | boolean
+export type SelectItemValue = string | number
 
 interface BaseSelectItem {
   /** ID */
