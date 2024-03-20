@@ -1,3 +1,26 @@
+## [0.0.7](https://github.com/shoppingzh/magic-hooks/compare/0.0.3...0.0.7) (2024-03-20)
+
+
+### Bug Fixes
+
+* useChart, el change will destroy and reinit ([bcf064a](https://github.com/shoppingzh/magic-hooks/commit/bcf064af39f02d45bd98e46b36067c30b206e5c4))
+
+
+### Features
+
+* upgrade packages ([9006dbd](https://github.com/shoppingzh/magic-hooks/commit/9006dbd868d321a50c72bf25befb869262ff3130))
+* useChart, useElementVisible ([dc6b707](https://github.com/shoppingzh/magic-hooks/commit/dc6b70746a7c79b3150367cfc1e91285074206a4))
+* useSelect ([bf3746a](https://github.com/shoppingzh/magic-hooks/commit/bf3746ad550590b3f3d374d753baf392a4253878))
+* useSelect ([e33ffd5](https://github.com/shoppingzh/magic-hooks/commit/e33ffd5ee732b2f4db110ef03b1455f3d3530227))
+* useSelect, rename param name ([aba3db6](https://github.com/shoppingzh/magic-hooks/commit/aba3db6617ec0aa7f11a8f23be3c35dc82987dc1))
+* useSelect, value type shrink ([2ad4e93](https://github.com/shoppingzh/magic-hooks/commit/2ad4e939ae0991739db24765fd049d1827bc1ece))
+* v0.0.3 ([9d2694a](https://github.com/shoppingzh/magic-hooks/commit/9d2694ab03ce4973882ca2e6ebe6ccb85d515f1d))
+* v0.0.4 ([05a0344](https://github.com/shoppingzh/magic-hooks/commit/05a03442804a3bd07b0d58aaf2ec0ff55fd7bcb9))
+* v0.0.5 ([4105e9b](https://github.com/shoppingzh/magic-hooks/commit/4105e9b42863c6a4beb2b34e68138b21cb7af221))
+* v0.0.6 ([8595264](https://github.com/shoppingzh/magic-hooks/commit/85952644b8bd1d07ef0231987e43d5a68aa1efa3))
+
+
+
 ## [0.0.1](https://github.com/shoppingzh/magic-hooks/compare/e8e3df61618a8180ee5670f403d2c7d4cec15e95...v0.0.1) (2023-06-20)
 
 
