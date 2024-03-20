@@ -11,7 +11,7 @@ export default function useElementVisible(options: Options) {
   const el = ref(options.el)
   const observer = shallowRef<IntersectionObserver>()
 
-  function observe() {
+  function init() {
     if (!el.value || observer.value) return
 
     observer.value = new IntersectionObserver((entries) => {
@@ -27,7 +27,10 @@ export default function useElementVisible(options: Options) {
     observer.value = null
   }
 
-  watch(el, observe)
+  watch(el, () => {
+    destroy()
+    init()
+  }, { immediate: true })
   onUnmounted(destroy)
 
   return visible

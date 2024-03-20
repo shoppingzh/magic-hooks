@@ -62,6 +62,10 @@ export default function(options: UseChartOptions = {}): UseChartReturn {
   const lazyRender = ref(opts.lazyRender)
   const visible = useElementVisible({ el }) // Vueuse useElementVisibility有问题，自己实现
 
+  /**
+   * 初始化
+   * @param force 强制初始化，设置为true时，无论实例是否已存在，都重新初始化
+   */
   function init(force?: boolean) {
     if (!el.value) return
     if (lazyRender.value && !visible.value) return
@@ -69,11 +73,19 @@ export default function(options: UseChartOptions = {}): UseChartReturn {
     instance.value = echarts.init(el.value, theme.value)
   }
 
+  /**
+   * 销毁
+   */
   function destroy() {
     if (!instance.value) return
     if (instance.value.isDisposed()) return
     instance.value.dispose()
     instance.value = null
+  }
+
+  function reinit() {
+    destroy()
+    init()
   }
 
   function resize() {
@@ -103,24 +115,25 @@ export default function(options: UseChartOptions = {}): UseChartReturn {
     }
   }
 
-  // 元素存在时，渲染
-  watch(el, () => init(), { immediate: true })
+
+  // 元素变化，重新初始化
+  watch(el, () => reinit(), { immediate: true })
+  // 元素出现，初始化，懒渲染
   watch(visible, () => init(), { immediate: true })
-  // 销毁
-  onUnmounted(destroy) // FIXME watch el el变为空，也需要销毁
   // 元素容器大小变化，重置图表大小
-  useResizeObserver(el, useThrottleFn(resize, 500))
+  useResizeObserver(el, useThrottleFn(resize, 300))
   // 配置项变化，重绘
-  watch([instance, option], render, { deep: true })
+  watch([instance, option], () => render(), { deep: true })
   // 加载态变化，更新加载
-  watch([instance, loading], updateLoading)
+  watch([instance, loading], () => updateLoading())
   // 主题变化，重绘
   watch(theme, () => {
     // FIXME 注：echarts暂不支持动态换肤，需要先销毁实例重新初始化
     // 详情请见：https://github.com/apache/echarts/issues/4607
-    destroy()
-    init()
+    reinit()
   })
+  // 销毁
+  onUnmounted(() => destroy())
 
   return {
     el,
