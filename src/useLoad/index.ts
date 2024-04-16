@@ -5,8 +5,9 @@ export type LoadFn<Q, R> = (query: Q) => Promise<R>
 
 export interface UseLoadOptions<Q, R> {
   initialQuery?: MaybeRef<Q>
-  initialResult?: R
-  /**自动加载 */
+  initialResult?: MaybeRef<R>
+  loading?: MaybeRef<boolean>
+  /** 自动加载 */
   autoLoad?: boolean
 }
 
@@ -21,27 +22,27 @@ export interface UseLoadReturn<Q, R> {
  * 通用加载hooks，特性：
  * - 查询参数与加载数据
  * - 不限定加载源
- * @param fn 
+ * @param onLoad 
  * @param options 
  * @returns 
  */
 export default function<Q extends object = object, R = unknown>(
-  fn: LoadFn<Q, R>,
+  onLoad: LoadFn<Q, R>,
   options: UseLoadOptions<Q, R> = {}
 ): UseLoadReturn<Q, R> {
   const opts = options
   const query = toReactive(opts.initialQuery || {} as Q)
   const result = ref(opts.initialResult) as Ref<R>
-  const loading = ref(false)
+  const loading = ref(options.loading)
 
   function load(disableLoading = false) {
     return new Promise<void>(async(resolve, reject) => {
       try {
-        if (!fn) return reject()
+        if (!onLoad) return reject()
         if (!disableLoading) {
           loading.value = true
         }
-        result.value = await fn(query)
+        result.value = await onLoad(query)
 
         resolve()
       } catch (err) {
