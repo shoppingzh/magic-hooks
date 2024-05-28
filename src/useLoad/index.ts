@@ -44,7 +44,7 @@ export default function<Q extends object = object, R = unknown>(
   const opts = options
   const query = toReactive(opts.initialQuery || {} as Q)
   const result = ref(opts.initialResult) as Ref<R>
-  const loading = ref(options.loading)
+  const loading = ref(options.loading ?? false)
   const loaded = ref(false)
 
   function load(disableLoading = false) {
