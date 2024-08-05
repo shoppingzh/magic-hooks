@@ -30,7 +30,7 @@ interface UseSelectReturn<T extends BaseSelectItem> {
   /** 选中值 */
   activeValue: Ref<SelectItemValue>
   /** 选中项 */
-  activeItem: ComputedRef<SelectItem>
+  activeItem: ComputedRef<T>
 }
 
 function isSameValue(a: SelectItemValue, b: SelectItemValue) {
