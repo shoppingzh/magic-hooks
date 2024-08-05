@@ -23,8 +23,8 @@
     }
   },
   "scripts": {
-    "dev": "rollup -c scripts/rollup.config.ts --configPlugin=typescript={tsconfig:'scripts/tsconfig.build.json'} --bundleConfigAsCjs --watch",
-    "build": "rollup -c scripts/rollup.config.ts --configPlugin=typescript={tsconfig:'scripts/tsconfig.build.json'} --bundleConfigAsCjs",
+    "dev": "rollup -c scripts/rollup.config.ts --configPlugin=\"typescript={tsconfig:'scripts/tsconfig.build.json'}\" --bundleConfigAsCjs --watch",
+    "build": "rollup -c scripts/rollup.config.ts --configPlugin=\"typescript={tsconfig:'scripts/tsconfig.build.json'}\" --bundleConfigAsCjs",
     "lint": "eslint .",
     "format": "eslint . --fix",
     "test": "jest",

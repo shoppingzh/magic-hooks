@@ -15,18 +15,18 @@ export interface SelectItem extends BaseSelectItem {
   [key: string]: any
 }
 
-interface UseSelectOptions {
+interface UseSelectOptions<T extends BaseSelectItem> {
   /** 选项列表 */
-  items: MaybeRef<SelectItem[]>
+  items: MaybeRef<T[]>
   /** 默认值 */
   initialValue?: MaybeRef<SelectItemValue>
   /** 当没有值选中时，是否自动选中 */
-  autoSelect?: boolean
+  autoSelect?: MaybeRef<boolean>
 }
 
-interface UseSelectReturn {
+interface UseSelectReturn<T extends BaseSelectItem> {
   /** 选项列表 */
-  items: Ref<SelectItem[]>
+  items: Ref<T[]>
   /** 选中值 */
   activeValue: Ref<SelectItemValue>
   /** 选中项 */
@@ -43,28 +43,24 @@ function isSameValue(a: SelectItemValue, b: SelectItemValue) {
  * @param options 
  * @returns 
  */
-export default function useSelect(options: UseSelectOptions): UseSelectReturn {
-  const items = ref(options.items ?? [])
-  const safeItems = computed(() => items.value || [])
+export default function useSelect<T extends BaseSelectItem>(options: UseSelectOptions<T>): UseSelectReturn<T> {
+  const items = ref(options.items ?? []) as Ref<T[]>
+  const autoSelect = ref(options.autoSelect ?? false)
   const activeValue = ref(options.initialValue)
+
+  const safeItems = computed(() => items.value || [])
   const activeItem = computed(() => safeItems.value.find(o => isSameValue(o.value, activeValue.value)))
 
-  function autoSelect() {
+  function select() {
+    if (!autoSelect.value) return
+    if (activeItem.value && !activeItem.value.disabled) return
+
     // 没选中或选中的是禁用的，重新自动选择
-    if (!activeItem.value || activeItem.value.disabled) {
-      const firstEnableItem = safeItems.value.find(o => !o.disabled)
-      activeValue.value = firstEnableItem ? firstEnableItem.value : undefined
-    }
+    const firstEnableItem = safeItems.value.find(o => !o.disabled)
+    activeValue.value = firstEnableItem?.value
   }
 
-  if (options.autoSelect) {
-    watch([activeValue, items], () => {
-      autoSelect()
-    }, {
-      immediate: true,
-      deep: true,
-    })
-  }
+  watch([activeValue, items, autoSelect], select, { immediate: true, deep: true, })
 
   return {
     items,
