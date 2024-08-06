@@ -33,6 +33,13 @@ interface UseSelectReturn<T extends BaseSelectItem> {
   activeItem: ComputedRef<T>
 }
 
+/**
+ * 比较两个值是否相等
+ * 
+ * @param a 
+ * @param b 
+ * @returns 
+ */
 function isSameValue(a: SelectItemValue, b: SelectItemValue) {
   return Object.is(a, b)
 }
@@ -51,16 +58,26 @@ export default function useSelect<T extends BaseSelectItem>(options: UseSelectOp
   const safeItems = computed(() => items.value || [])
   const activeItem = computed(() => safeItems.value.find(o => isSameValue(o.value, activeValue.value)))
 
-  function select() {
-    if (!autoSelect.value) return
+  /**
+   * 选择第一个可用项
+   * 
+   * @param force 
+   * @returns 
+   */
+  function selectFirstEnableItem(force?: boolean) {
     if (activeItem.value && !activeItem.value.disabled) return
+    if (!force && activeValue.value == null) return
 
-    // 没选中或选中的是禁用的，重新自动选择
     const firstEnableItem = safeItems.value.find(o => !o.disabled)
     activeValue.value = firstEnableItem?.value
   }
 
-  watch([activeValue, items, autoSelect], select, { immediate: true, deep: true, })
+  function autoSelectFirstEnableItem() {
+    if (!autoSelect.value) return
+    selectFirstEnableItem(true)
+  }
+
+  watch([activeValue, items, autoSelect], autoSelectFirstEnableItem, { immediate: true, deep: true, })
 
   return {
     items,
