@@ -1,7 +1,4 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
-const javascript = require('@shoppingzh/eslint-config/javascript')
-const stylistic = require('@shoppingzh/eslint-config/stylistic')
-const typescript = require('@shoppingzh/eslint-config/typescript')
+const { javascript, stylistic, typescript, } = require('@shoppingzh/eslint-config')
 const globals = require('globals')
 
 module.exports = [
@@ -15,4 +12,10 @@ module.exports = [
   }),
   ...stylistic(),
   ...typescript(),
+  {
+    files: ['*.js'],
+    rules: {
+      '@typescript-eslint/no-require-imports': [0],
+    }
+  }
 ]
